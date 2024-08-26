@@ -1,9 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <RootNamespace>Lontra</RootNamespace>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.*" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.*" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="8.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lontra.Core\Lontra.Core.csproj" />
+    <ProjectReference Include="..\Lontra.Infrastructure.EFCore\Lontra.Infrastructure.EFCore.csproj" />
+  </ItemGroup>
 
 </Project>
