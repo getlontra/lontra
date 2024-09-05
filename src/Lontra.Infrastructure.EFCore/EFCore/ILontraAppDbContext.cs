@@ -11,6 +11,4 @@ public interface ILontraAppDbContext
 
 
     public DbSet<Tenant> Tenant { get; set; }
-
-    public DbSet<User> User { get; set; }
 }
