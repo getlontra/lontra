@@ -1,4 +1,6 @@
-﻿namespace Lontra;
+﻿using Lontra.Core.Implementation;
+
+namespace Lontra;
 
 /// <summary>
 /// Provides information on the current logged-in user.

@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Lontra;
+namespace Lontra.Core.Implementation;
 
 /// <summary>
 /// An end-user of the application.
 /// </summary>
-public class User : IEntity<UserId>, IMultiTenantEntity, ISoftDeleteEntity
+public class User : IUser
 {
     public TenantId TenantId { get; set; } = null!;
     public Tenant Tenant { get; set; } = null!;
@@ -20,7 +20,7 @@ public class User : IEntity<UserId>, IMultiTenantEntity, ISoftDeleteEntity
     /// Example: <c>acme\john.doe</c>
     /// </remarks>
     [MaxLength(200)]
-    public string Username { get; set; } = null!;
+    public string? UserName { get; set; }
 
     /// <summary>
     /// The given name (human name/friendly name) of the user.

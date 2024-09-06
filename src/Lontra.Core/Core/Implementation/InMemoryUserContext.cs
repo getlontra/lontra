@@ -19,7 +19,7 @@ public class InMemoryUserContext : IUserContext
     public Task SetCurrentUser(User user, bool keepCurrentTenant, CancellationToken _)
     {
         CurrentUserId = user.Id;
-        CurrentUsername = user.Username;
+        CurrentUsername = user.UserName;
         CurrentUserGivenName = user.GivenName;
         CurrentUserEmail = user.Email;
 
