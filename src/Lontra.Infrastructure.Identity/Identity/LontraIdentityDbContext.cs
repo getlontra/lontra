@@ -13,7 +13,7 @@ namespace Lontra.Identity;
 /// The scaffolded <see cref="DbContext"/> will contain both the ASP.NET Identity tables (AspNetUsers, AspNetRoles...)
 /// and the Lontra Tenant/User tables.
 /// </remarks>
-public class LontraIdentityDbContext : IdentityDbContext<IdentityUser<long>, IdentityRole<long>, long>, ILontraAppDbContext
+public class LontraIdentityDbContext : IdentityDbContext<LontraIdentityUser, IdentityRole<long>, long>, ILontraAppDbContext
 {
     public IUserContext UserContext { get; }
 
