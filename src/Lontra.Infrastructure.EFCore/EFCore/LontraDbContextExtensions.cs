@@ -18,7 +18,6 @@ public static class LontraDbContextExtensions
         where TDbCtx : DbContext, ILontraAppDbContext
     {
         modelBuilder.ApplyConfiguration(new TenantConfiguration());
-        modelBuilder.ApplyConfiguration(new UserConfiguration());
 
         // Ignore Identifier types in Model
         var idTypes = modelBuilder
