@@ -10,18 +10,23 @@ public class InMemoryUserContext : IUserContext
 
     public UserId? CurrentUserId { get; set; }
 
-    public string? CurrentUsername { get; set; }
+    public string? CurrentUserName { get; set; }
 
     public string? CurrentUserGivenName { get; set; }
 
     public string? CurrentUserEmail { get; set; }
 
-    public Task SetCurrentUser(User user, bool keepCurrentTenant, CancellationToken _)
+    public Task SetCurrentUser(UserContextData user, bool keepCurrentTenant, CancellationToken _)
     {
-        CurrentUserId = user.Id;
-        CurrentUsername = user.UserName;
-        CurrentUserGivenName = user.GivenName;
-        CurrentUserEmail = user.Email;
+        if (!keepCurrentTenant && user.TenantId == null)
+        {
+            throw new ArgumentNullException(nameof(user.TenantId), "");
+        }
+
+        CurrentUserId = user.UserId;
+        CurrentUserName = user.UserName;
+        CurrentUserGivenName = user.UserGivenName;
+        CurrentUserEmail = user.UserEmail;
 
         if (!keepCurrentTenant)
         {
@@ -36,7 +41,7 @@ public class InMemoryUserContext : IUserContext
         CurrentTenantId = null;
 
         CurrentUserId = null;
-        CurrentUsername = null;
+        CurrentUserName = null;
         CurrentUserGivenName = null;
         CurrentUserEmail = null;
 

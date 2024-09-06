@@ -1,4 +1,4 @@
-﻿using Lontra.Core.Implementation;
+﻿using Lontra.Core;
 
 namespace Lontra;
 
@@ -35,7 +35,7 @@ public interface IUserContext
     /// <example>Example: domain\john.doe</example>
     /// </para>
     /// </remarks>
-    public string? CurrentUsername { get; }
+    public string? CurrentUserName { get; }
 
     /// <summary>
     /// The Given Name of the current user, if logged in.
@@ -65,7 +65,7 @@ public interface IUserContext
     /// <param name="user">User information to set.</param>
     /// <param name="keepCurrentTenant">If true, do not switch to the user's Tenant.</param>
     /// <param name="cancellationToken">Cancellation Token to be observed.</param>
-    public Task SetCurrentUser(User user, bool keepCurrentTenant = false, CancellationToken cancellationToken = default);
+    public Task SetCurrentUser(UserContextData user, bool keepCurrentTenant = false, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Clears the User for the currently executing thread/request.
