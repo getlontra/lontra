@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Lontra.Infrastructure.Identity.Identity;
+namespace Lontra.Identity;
 
 /// <summary>
 /// Default implementation of a <see cref="DbContext"/> implementing both the Lontra DbContext spec and
