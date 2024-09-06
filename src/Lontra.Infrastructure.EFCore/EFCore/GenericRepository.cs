@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lontra.EFCore;
 
-internal static class GenericRepository
+public static class GenericRepository
 {
     public static async Task<TId> CreateWithActionAsync<T, TId>(DbContext dbContext, Action<T> createAction, CancellationToken cancellationToken = default)
         where T : IEntity<TId>, new()
