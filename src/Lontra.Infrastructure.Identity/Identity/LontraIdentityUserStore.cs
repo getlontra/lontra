@@ -4,26 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lontra.Identity;
 
-public class LontraIdentityUserStore : UserStore<LontraIdentityUser, IdentityRole<long>, LontraIdentityDbContext, long>
+public class LontraIdentityUserStore<TDbContext> : UserStore<LontraIdentityUser, IdentityRole<long>, TDbContext, long>
+    where TDbContext : LontraIdentityDbContext
 {
-    public LontraIdentityUserStore(LontraIdentityDbContext context, IdentityErrorDescriber? describer = null) : base(context, describer) { }
+    public LontraIdentityUserStore(TDbContext context, IdentityErrorDescriber? describer = null) : base(context, describer) { }
 
-    public override async Task<LontraIdentityUser?> FindByIdAsync(string userId, CancellationToken cancellationToken = default)
+    public override IQueryable<LontraIdentityUser> Users
     {
-        var id = ConvertIdFromString(userId);
-        return await Context
-            .Users
-            .IgnoreQueryFilters()
-            .Where(u => u.Id == id)
-            .FirstOrDefaultAsync();
-    }
-
-    public override async Task<LontraIdentityUser?> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
-    {
-        return await Context
-            .Users
-            .IgnoreQueryFilters()
-            .Where(u => u.NormalizedUserName == normalizedUserName)
-            .FirstOrDefaultAsync();
+        // Ensure Tenant filter is ignored during TryLogin()
+        get => base.Users.IgnoreQueryFilters();
     }
 }
