@@ -7,8 +7,8 @@
     <Nullable>enable</Nullable>
 
     <!-- NuGet.org -->
-	<Authors>Lontra</Authors>
-    <Version>0.0.4</Version>
+    <Authors>Lontra</Authors>
+    <Version>0.0.5</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -22,10 +22,10 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-	<None Include="README.md">
-		<Pack>True</Pack>
-		<PackagePath>\</PackagePath>
-	</None>
+    <None Include="README.md">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
