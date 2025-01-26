@@ -2,6 +2,7 @@
 using Lontra.EFCore.Configurations;
 using Lontra.EFCore.Utils;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 
 namespace Lontra.EFCore;
@@ -52,16 +53,18 @@ public static class LontraDbContextExtensions
                 PropertyInfo entityIdProp = entityType.ClrType.GetProperty(nameof(IEntity<object>.Id))!;
                 Type entityIdType = entityIdProp.PropertyType;
 
-                typeof(EntityTypeBuilderUtils).GetMethod(nameof(EntityTypeBuilderUtils.ConfigureEntity), BindingFlags.Static | BindingFlags.NonPublic)!
-                    .MakeGenericMethod(entityType.ClrType, entityIdType)
-                    .Invoke(null, new[] { entityTypeBuilder });
-
-
-                if (entityIdType.BaseType?.IsAssignableTo(typeof(IIdentifier)) ?? false)
+                if (! Attribute.IsDefined(entityIdProp, typeof(NotMappedAttribute)))
                 {
-                    typeof(EntityTypeBuilderUtils).GetMethod(nameof(EntityTypeBuilderUtils.ConfigureEntityIdentifier), BindingFlags.Static | BindingFlags.NonPublic)!
-                        .MakeGenericMethod(entityType.ClrType, entityIdType, entityIdType.BaseType!.GenericTypeArguments[0])
+                    typeof(EntityTypeBuilderUtils).GetMethod(nameof(EntityTypeBuilderUtils.ConfigureEntity), BindingFlags.Static | BindingFlags.NonPublic)!
+                        .MakeGenericMethod(entityType.ClrType, entityIdType)
                         .Invoke(null, new[] { entityTypeBuilder });
+
+                    if (entityIdType.BaseType?.IsAssignableTo(typeof(IIdentifier)) ?? false)
+                    {
+                        typeof(EntityTypeBuilderUtils).GetMethod(nameof(EntityTypeBuilderUtils.ConfigureEntityIdentifier), BindingFlags.Static | BindingFlags.NonPublic)!
+                            .MakeGenericMethod(entityType.ClrType, entityIdType, entityIdType.BaseType!.GenericTypeArguments[0])
+                            .Invoke(null, new[] { entityTypeBuilder });
+                    }
                 }
             }
 
