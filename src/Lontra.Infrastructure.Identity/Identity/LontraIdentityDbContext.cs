@@ -17,7 +17,7 @@ public class LontraIdentityDbContext : IdentityDbContext<LontraIdentityUser, Ide
 {
     public IUserContext UserContext { get; }
 
-    public DbSet<Tenant> Tenant { get; set; }
+    public DbSet<Tenant> Tenant { get; set; } = null!;
 
     public bool HasSaveChangesFailure { get; set; }
 

@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lontra.Identity;
 
-public class LontraIdentityUser : IdentityUser<long>, IUser, IEntity<long>
+public class LontraIdentityUser : IdentityUser<long>, IUser
 {
     public TenantId TenantId { get; set; } = null!;
     public Tenant Tenant { get; set; } = null!;
 
-    long IEntity<long>.Id { get => base.Id; set => base.Id = value; }
-
-    UserId IEntity<UserId>.Id { get => new UserId(base.Id); set => base.Id = value.Value; }
+    [NotMapped]
+    UserId IEntity<UserId>.Id { get; set; } = null!;
 
     // ASP.NET Core Identity fields
 
