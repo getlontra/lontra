@@ -12,6 +12,14 @@ public static class IQueryableExtensions
             return queryable;
         }
 
+        if (pagination.PageNumber < 1)
+        {
+            // Ardalis: "If Skip is zero, avoid using Skip to generate more optimized SQL"
+            //  ~ github.com/ardalis/Specification/blob/v8.0/Specification/src/Ardalis.Specification/Evaluators/PaginationEvaluator.cs#L15
+
+            return queryable.Take(pagination.PageSize);
+        }
+
         return queryable
             .Skip((pagination.PageNumber - 1) * pagination.PageSize)
             .Take(pagination.PageSize);
