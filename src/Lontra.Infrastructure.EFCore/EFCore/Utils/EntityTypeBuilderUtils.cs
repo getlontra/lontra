@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lontra.EFCore.Utils;
 
@@ -8,6 +9,12 @@ internal static class EntityTypeBuilderUtils
     internal static void ConfigureEntity<T, TId>(EntityTypeBuilder<T> builder)
         where T : class, IEntity<TId>
     {
+        if (Attribute.IsDefined(typeof(T).GetProperty(nameof(IEntity<TId>.Id), typeof(TId))!, typeof(NotMappedAttribute)))
+        {
+            // Do not configure Id when marked with attribute [NotMapped]
+            return;
+        }
+
         builder.HasKey(e => e.Id);
 
         if (typeof(TId) == typeof(long) || typeof(TId) == typeof(int))
@@ -23,6 +30,12 @@ internal static class EntityTypeBuilderUtils
         where T : class, IEntity<TId>
         where TId : Identifier<TIdValue>
     {
+        if (Attribute.IsDefined(typeof(T).GetProperty(nameof(IEntity<TId>.Id), typeof(TId))!, typeof(NotMappedAttribute)))
+        {
+            // Do not configure Id when marked with attribute [NotMapped]
+            return;
+        }
+
         if (typeof(TIdValue) == typeof(long) || typeof(TIdValue) == typeof(int))
         {
             // Auto-increment numeric IDs

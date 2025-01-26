@@ -49,7 +49,8 @@ public static class LontraDbContextExtensions
 
             if (isEntity)
             {
-                var entityIdType = entityType.ClrType.GetProperty(nameof(IEntity<object>.Id))?.PropertyType!;
+                PropertyInfo entityIdProp = entityType.ClrType.GetProperty(nameof(IEntity<object>.Id))!;
+                Type entityIdType = entityIdProp.PropertyType;
 
                 typeof(EntityTypeBuilderUtils).GetMethod(nameof(EntityTypeBuilderUtils.ConfigureEntity), BindingFlags.Static | BindingFlags.NonPublic)!
                     .MakeGenericMethod(entityType.ClrType, entityIdType)
