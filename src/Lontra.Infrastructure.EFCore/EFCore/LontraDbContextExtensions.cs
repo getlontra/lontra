@@ -4,6 +4,7 @@ using Lontra.EFCore.Utils;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
+using System.Reflection.Metadata;
 
 namespace Lontra.EFCore;
 
@@ -50,7 +51,11 @@ public static class LontraDbContextExtensions
 
             if (isEntity)
             {
-                PropertyInfo entityIdProp = entityType.ClrType.GetProperty(nameof(IEntity<object>.Id))!;
+                PropertyInfo entityIdProp = entityType.ClrType
+                    .GetProperties()
+                    .Where(m => m.DeclaringType!.IsAssignableTo(typeof(IIEntity)))
+                    .First();
+
                 Type entityIdType = entityIdProp.PropertyType;
 
                 if (! Attribute.IsDefined(entityIdProp, typeof(NotMappedAttribute)))
