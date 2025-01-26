@@ -51,15 +51,15 @@ public static class LontraDbContextExtensions
 
             if (isEntity)
             {
-                PropertyInfo entityIdProp = entityType.ClrType
+                PropertyInfo? entityIdProp = entityType.ClrType
                     .GetProperties()
-                    .Where(m => m.DeclaringType!.IsAssignableTo(typeof(IIEntity)))
-                    .First();
+                    .Where(p => p.Name == nameof(IEntity<object>.Id) && p.DeclaringType!.IsAssignableTo(typeof(IIEntity)))
+                    .FirstOrDefault();
 
-                Type entityIdType = entityIdProp.PropertyType;
-
-                if (! Attribute.IsDefined(entityIdProp, typeof(NotMappedAttribute)))
+                if (entityIdProp != null && !Attribute.IsDefined(entityIdProp, typeof(NotMappedAttribute)))
                 {
+                    Type entityIdType = entityIdProp.PropertyType;
+
                     typeof(EntityTypeBuilderUtils).GetMethod(nameof(EntityTypeBuilderUtils.ConfigureEntity), BindingFlags.Static | BindingFlags.NonPublic)!
                         .MakeGenericMethod(entityType.ClrType, entityIdType)
                         .Invoke(null, new[] { entityTypeBuilder });
